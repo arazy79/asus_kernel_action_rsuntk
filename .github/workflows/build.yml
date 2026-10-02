@@ -4,7 +4,7 @@ on:
     inputs:
       KERNEL_REPO:
         description: 'Kernel URL repository'
-        default: 'https://github.com/rsuntk/android_kernel_asus_sdm660-4.19'
+        default: 'https://github.com/arazy79/asus_kernel_action_rsuntk'
         required: true
       BRANCH:
         description: 'Kernel branch'
@@ -12,7 +12,7 @@ on:
         required: true
       DEVICE_TARGET:
         description: 'Device to build'
-        default: 'X01BD'
+        default: 'X00TD'
         type: choice
         options: [X01BD, X00TD]
       KSU:
