@@ -5,9 +5,9 @@ set -euo pipefail
 
 # --- Configuration ---
 SECONDS=0
-USER="rsuntk"
-HOSTNAME="yukiprjkt-lab"
-DEVICE_TARGET=${DEVICE_TARGET:-"X01BD"}
+USER="google"
+HOSTNAME="mintdroid"
+DEVICE_TARGET=${DEVICE_TARGET:-"X00TD"}
 OUT_DIR="$(pwd)/out"
 COMP_LOG="$OUT_DIR/compilation.log"
 KCFLAGS_W=${KCFLAGS_W:-"false"}
