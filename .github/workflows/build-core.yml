@@ -129,16 +129,6 @@ jobs:
           if [[ "$KSU" != "NULL" ]]; then
             curl -LSs "${{ inputs.KSU }}" | bash -s ${{ inputs.KSU_BRANCH }}
           fi
-                run: |
-        if [[ "${{ inputs.UPDATE_TOOLCHAIN }}" != "true" ]]; then
-          cd kernel_root
-          if [ ! -d ~/.ccache ]; then
-            mkdir -p ~/.ccache
-          fi
-          # Handle KernelSU
-          if [[ "$KSU" != "NULL" ]]; then
-            curl -LSs "${{ inputs.KSU }}" | bash -s ${{ inputs.KSU_BRANCH }}
-          fi
           # ---- TAMBAHAN SUSFS ----
           git clone --depth=1 -b 4.19 https://gitlab.com/simonpunk/susfs4ksu.git /tmp/susfs
           cp /tmp/susfs/kernel_patches/fs/susfs.c fs/
@@ -158,8 +148,6 @@ jobs:
         CONFIG_KSU_SUSFS_SPOOF_UNAME=y
         EOF
           # ------------------------
-          bash ../build.sh
-        fi
           bash ../build.sh
         fi
 
