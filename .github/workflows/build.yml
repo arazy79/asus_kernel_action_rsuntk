@@ -20,7 +20,7 @@ on:
         default: "https://raw.githubusercontent.com/backslashxx/KernelSU/master/kernel/setup.sh"
       KSU_BRANCH:
         description: 'KernelSU branch'
-        required: false
+        required: true
         default: 'master'
       UPDATE_TOOLCHAIN:
         description: 'Update toolchain cache'
