@@ -11,6 +11,10 @@ on:
       DEVICE_TARGET:
         description: 'Device to build'
         type: string
+      ENABLE_KSU:
+        description: 'Enable KernelSU'
+        type: boolean
+        default: true
       KSU:
         description: 'Add KernelSU support'
         default: "NULL"
@@ -119,16 +123,29 @@ jobs:
         KCFLAGS_W: "${{ inputs.KCFLAGS_W }}"
         EXTRA_CONFIG: "${{ inputs.EXTRA_CONFIG }}"
         COMP_OPTION: "${{ steps.curr_compiler.outputs.active_compiler }}"
+        KSU_ENABLED: ${{ inputs.ENABLE_KSU }}
+        KSU_URL: ${{ inputs.KSU }}
+        KSU_BRANCH: ${{ inputs.KSU_BRANCH }}
       run: |
         if [[ "${{ inputs.UPDATE_TOOLCHAIN }}" != "true" ]]; then
           cd kernel_root
           if [ ! -d ~/.ccache ]; then
             mkdir -p ~/.ccache
           fi
+
           # Handle KernelSU
-          if [[ "$KSU" != "NULL" ]]; then
-            curl -LSs "${{ inputs.KSU }}" | bash -s ${{ inputs.KSU_BRANCH }}
+          if [[ "$KSU_ENABLED" == "true" && "$KSU_URL" != "NULL" ]]; then
+            echo "KernelSU: ON"
+            curl -LSs "$KSU_URL" | bash -s "$KSU_BRANCH"
+            case " $EXTRA_CONFIG " in
+              *"vendor/extra/ksu.config"*) ;;
+              *) export EXTRA_CONFIG="vendor/extra/ksu.config $EXTRA_CONFIG" ;;
+            esac
+          else
+            echo "KernelSU: OFF"
+            export EXTRA_CONFIG="${EXTRA_CONFIG//vendor\/extra\/ksu.config/}"
           fi
+
           bash ../build.sh
         fi
 
